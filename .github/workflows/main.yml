@@ -1,42 +1,32 @@
-name: CI Pipeline
+name: Run Tests
 
-# Trigger the workflow on push to any branch or pull request to the main branch
 on:
   push:
     branches:
-      - main  # Replace with your default branch name, e.g., 'master' or 'main'
+      - main  # Trigger tests on commits to the main branch
+      - '**'  # Optional: Include all branches
   pull_request:
     branches:
-      - main  # Same here for PRs
+      - main
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # You can choose other environments like windows-latest or macos-latest
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v3
 
-      # Step 2: Set up Python environment (Python 3.x)
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.8'  # Replace with the version you're using in your repo
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'  # Specify the Python version
 
-      # Step 3: Install dependencies (make sure to have a requirements.txt with the needed packages)
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt  # Make sure you have a requirements.txt with unittest and any other dependencies
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
 
-      # Step 4: Run the test script
-      - name: Run tests
-        run: |
-          python -m unittest discover -s tests  # This assumes your test script is in a 'tests' folder and follows naming conventions for discovery
-
-      # Step 5: Output test results
-      - name: Upload test results
-        if: failure()
-        run: |
-          echo "Tests failed!"  # Optional step to log failure message in the workflow
+    - name: Run Tests
+      run: |
+        python -m unittest discover -s tests  # Ensure tests are in a `tests/` folder
