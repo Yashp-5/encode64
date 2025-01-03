@@ -1,0 +1,2 @@
+2024-12-30 16:44:55,594 - Error in uploading JSON file: the JSON object must be str, bytes or bytearray, not MagicMock
+2024-12-30 16:44:55,597 - Error during file upload: the JSON object must be str, bytes or bytearray, not MagicMock
