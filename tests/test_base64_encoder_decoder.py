@@ -1,29 +1,33 @@
+
+import sys
+from unittest.mock import MagicMock
+
+# Mock tkinter if it's not available
+sys.modules['tkinter'] = MagicMock()
+sys.modules['tkinter.messagebox'] = MagicMock()
+sys.modules['tkinter.filedialog'] = MagicMock()
+
 import unittest
-from encodeIT import Base64EncoderDecoderApp  # Adjust this import based on your actual module name
+from unittest.mock import MagicMock
+from encodeIT import Base64EncoderDecoderApp  # Adjust this import to match your module name
 
 class TestBase64EncoderDecoder(unittest.TestCase):
 
     def setUp(self):
-        # Create a root window and instance of the app
-        self.app = Base64EncoderDecoderApp(None)  # Pass None or a mock root if running headless
+        # Mock the Tkinter root window
+        mock_root = MagicMock()
+        self.app = Base64EncoderDecoderApp(mock_root)
 
     def test_encode_json_to_base64(self):
-        # Test data
-        json_data = {"key": "value", "number": 123}
-        expected_base64 = 'eyJrZXkiOiAidmFsdWUiLCAibnVtYmVyIjogMTIzfQ=='  # This is the Base64 encoded version of the JSON string
-
-        # Test encoding
+        json_data = {"key": "value"}
         result = self.app.encode_json_to_base64(json_data)
-        self.assertEqual(result, expected_base64)
+        self.assertEqual(result, "eyJrZXkiOiAidmFsdWUifQ==")
 
     def test_decode_base64_to_json(self):
-        # Test data
-        base64_data = 'eyJrZXkiOiAidmFsdWUiLCAibnVtYmVyIjogMTIzfQ=='
-        expected_json = {"key": "value", "number": 123}
-
-        # Test decoding
+        base64_data = "eyJrZXkiOiAidmFsdWUifQ=="
         result = self.app.decode_base64_to_json(base64_data)
-        self.assertEqual(result, expected_json)
+        self.assertEqual(result, {"key": "value"})
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
+
