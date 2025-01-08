@@ -3,8 +3,8 @@ name: Run Tests
 on:
   push:
     branches:
-      - main  # Trigger tests on commits to the main branch
-      - '**'  # Optional: Include all branches
+      - main
+      - '**'
   pull_request:
     branches:
       - main
@@ -16,15 +16,6 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-
-    - name: Install System Dependencies
-      run: |
-        sudo apt-get update
-
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
 
     - name: Install Python Dependencies
       run: |
